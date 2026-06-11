@@ -10,18 +10,18 @@
 
 Стек
 Rust (рекомендуется stable, указать версию в rust-toolchain при необходимости)
-Cargo
-PostgreSQL (доступный DATABASE_URL)
-S3-совместимый сервис (MinIO/AWS S3)
-.env (рекомендуется dotenvy)
+- Cargo
+- PostgreSQL (доступный DATABASE_URL)
+- S3-совместимый сервис (MinIO/AWS S3)
+- .env (рекомендуется dotenvy)
 
 Переменные окружения
 - DATABASE_URL — строка подключения к PostgreSQL
 - S3_ENDPOINT — URL S3-совместимого сервиса (например http://localhost:9000)
-S3_ACCESS_KEY — access key
-S3_SECRET_KEY — secret key
-S3_REGION — регион (любой строкой, используется в конфиге AWS SDK)
-S3_BUCKET — имя бакета для синхронизации
+- S3_ACCESS_KEY — access key
+- S3_SECRET_KEY — secret key
+- S3_REGION — регион (любой строкой, используется в конфиге AWS SDK)
+- S3_BUCKET — имя бакета для синхронизации
 
 Структура БД (пример SQL)
 CREATE TABLE files (
