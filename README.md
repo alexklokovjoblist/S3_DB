@@ -78,7 +78,7 @@ println!("Inserted {} new records", inserted);
 ```
 
 
-```
+```mermaid
 flowchart LR
     %% Внешний мир
     U[User Browser] --> F[Frontend Yew WASM]
