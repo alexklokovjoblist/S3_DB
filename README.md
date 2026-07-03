@@ -78,7 +78,7 @@ println!("Inserted {} new records", inserted);
 ```
 
 
-
+```
 flowchart LR
     %% Внешний мир
     U[User Browser] --> F[Frontend Yew WASM]
@@ -119,3 +119,4 @@ flowchart LR
     P -->|consume GameFinished| MQ
 
     classDef svc fill:#1f2933,stroke:#111,color:#fff;
+```
