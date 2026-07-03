@@ -76,3 +76,46 @@ let (s3_client, pool, bucket) = init_s3_and_db().await?;
 let inserted = sync_bucket_to_db(&s3_client, &pool, &bucket).await?;
 println!("Inserted {} new records", inserted);
 ```
+
+
+
+flowchart LR
+    %% Внешний мир
+    U[User Browser] --> F[Frontend Yew WASM]
+
+    %% API‑граница
+    F -->|HTTP REST /api/*| GW[API Gateway / Ingress]
+
+    %% Игровые сервисы
+    subgraph S["Game Platform (microservices)"]
+        direction LR
+
+        G[GameService Axum + Postgres]:::svc
+        C[CardsService Axum + Postgres]:::svc
+        P[ProfileService Axum + Postgres]:::svc
+        ST[StatsService Axum + Postgres]:::svc
+    end
+
+    %% Очередь сообщений
+    MQ[(Message Queue\nRabbitMQ / Kafka)]
+
+    %% Хранилища
+    G -->|SQL| GDB[(games_db)]
+    C -->|SQL| CDB[(cards_db)]
+    P -->|SQL| PDB[(profiles_db)]
+    ST -->|SQL| STDB[(stats_db)]
+
+    %% Взаимодействия между сервисами (HTTP API)
+    GW -->|REST /games/*| G
+    GW -->|REST /profiles/*| P
+
+    G -->|REST /card-sets/*| C
+    G -->|REST /stats/games/*| ST
+    P -->|REST /stats/profiles/*| ST
+
+    %% Взаимодействия через очередь (events API)
+    G -->|publish GameFinished| MQ
+    ST -->|consume GameFinished| MQ
+    P -->|consume GameFinished| MQ
+
+    classDef svc fill:#1f2933,stroke:#111,color:#fff;
